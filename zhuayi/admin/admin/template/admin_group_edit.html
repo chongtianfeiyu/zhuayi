@@ -1,0 +1,111 @@
+<?php $this->load_modle('admin_header');?>
+<style type="text/css">
+.selected{background:#009900;color:#fff;}
+</style>
+<script type="text/javascript">
+<!--
+$(function(){
+	$.formValidator.initConfig({autotip:true,formid:"article_form",onerror:function(msg){}});
+	$("#group_name").formValidator({onshow:"请输入帐号组名",onfocus:"请输入帐号组名"}).inputValidator({min:2,max:60,onerror:"请输入帐号组名"});
+})
+
+//-->
+</script>
+<form action="/zpadmin/admin/group_info" method="post" id="article_form" enctype="multipart/form-data">
+<fieldset>
+	<legend><?php echo $show['pagename'];?></legend>
+	<table width="100%" class="table_form">
+		<tr>
+			<th width="80">帐号组名：</th>
+			<td class="y-bg" colspan="10">
+				<input type="text" class="input-text" name="group_name" id="group_name" value="<?php echo $show['info']['group_name'];?>" size="60" />
+			</td>
+		</tr>
+	</table>
+</fieldset>
+<fieldset>
+	<legend>管理权限</legend>
+	<div class="table-list">
+		<table width="100%" cellspacing="0" >
+			<thead>
+				<tr>
+					<th width="30"><input type="checkbox" name="checkbox" onclick="$('input[type=checkbox]').attr('checked',$(this).attr('checked'))"/></th>
+					<th width="50" >序号</th>
+					<th align='left'>权限名称</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($show['menu_list'] as $key=>$val){?>
+				<tr>
+					<td align='center' <?php if (isset($show['info']['menu_id'][$val['id']])){?> class="selected"<?php }?>>
+						<input type="checkbox" value="<?php echo $val['id'];?>" name="menu_id[]" class="admin_<?php echo $val['id'];?>" <?php if (isset($show['info']['menu_id'][$val['id']])){?> checked<?php }?>/>
+					</td>
+					<td  align='center'><?php echo $val['id'];?></td>
+					<td><?php echo $val['title'];?> (<?php echo $val['url'];?>)</td>
+				</tr>
+			<?php }?>
+			</tbody>
+		</table>
+	</div>
+</fieldset>
+<div class="bk15"></div>
+<input type="hidden" name="id" value="<?php echo $show['info']['id'];?>">
+<input type="submit" class="button" value="提交" />
+</form>
+<?php require $this->load_tpl('admin_foot');?>
+<script type="text/javascript">
+$(function(){
+	
+	/* 第三极菜单选中 */
+	$(".menu3").click(function(){
+
+		parent_id = $(this).attr('parent_id');
+		parent = $("#"+parent_id);
+		if ($(this).attr('checked') == false)
+		{
+			i = 0;
+			$.each($('input[parent_id='+parent_id+']'),function(k,v){
+				
+				if ($(v).attr('checked') == true)
+				{
+					i = 1;
+				}
+			})
+
+			if (i == 0)
+			{
+				$(parent).attr('checked',false);
+				$("#"+$(parent).attr("parent_id")).attr('checked',false);
+			}
+			
+		}
+		else
+		{
+			$(parent).attr('checked',true);
+			$("#"+$(parent).attr("parent_id")).attr('checked',true);
+		}
+		
+	})
+
+	/* 第二级选中 */
+	$(".menu2").click(function(){
+		obj2 = $(this);
+		$.each($('input[parent_id='+$(this).attr('id')+']'),function(k,v){
+				
+			$(v).attr('checked',$(obj2).attr('checked'))
+		})
+	})
+
+	/* 第三级选中 */
+	$(".menu1").click(function(){
+		
+		obj1 = $(this);
+
+		$.each($('input[parent_id='+$(this).attr('id')+']'),function(k,v){
+				
+			$(v).attr('checked',$(obj1).attr('checked')).click().attr('checked',$(obj1).attr('checked'));
+		})
+	})
+})
+
+</script>

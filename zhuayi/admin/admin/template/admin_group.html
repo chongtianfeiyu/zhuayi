@@ -1,0 +1,32 @@
+<?php $this->load_modle('admin_header');?>
+<form name="myform" action="/zpadmin/admin/user_del/" method="post" id="admin_user">
+<div class="table-list">
+	<table width="100%" cellspacing="0" >
+		<thead>
+			<tr>
+				<th width="30"><input type="checkbox" name="checkbox" onclick="$('input[type=checkbox]').attr('checked',$(this).attr('checked'))"/></th>
+				<th width="100" align='left'>序号</th>
+				<th align='left'>账号组</th>
+				<th width="200">管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($show['list'] as $key=>$val){?>
+			<tr>
+				<td align='center'>
+					<input type="checkbox" value="<?php echo $val['id'];?>" name="id[]" class="admin_<?php echo $val['id'];?>"/>
+				</td>
+				<td><?php echo $val['id'];?></td>
+				<td><?php echo $val['group_name'];?></td>
+				<td align='center'>
+					<a href="/zpadmin/admin/group_edit/<?php echo $val['id'];?>">编辑</a> |
+					<a href="/zpadmin/admin/group_del/<?php echo $val['id'];?>" onclick="del(this)">删除</a>
+				</td>
+			</tr>
+		<?php }?>
+		</tbody>
+	</table>
+</div>
+</form>
+<?php require $this->load_tpl('admin_foot');?>
+

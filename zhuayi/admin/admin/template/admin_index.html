@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" class="off">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title><?php echo $show['webname'];?></title>
+<link href="/zhuayi/admin/admin/template/style/reset.css" rel="stylesheet" type="text/css" />
+<link href="/zhuayi/admin/admin/template/style/system.css" rel="stylesheet" type="text/css" />
+<link href="/zhuayi/admin/admin/template/style/styles2.css" rel="stylesheet" type="text/css" />
+<link href="/zhuayi/admin/admin/template/style/table_form.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/zhuayi/admin/admin/template/js/jquery.min.js"></script>
+<script type="text/javascript" src="/zhuayi/admin/admin/template/js/thickbox/thickbox.js"></script>
+<link rel="stylesheet" type="text/css" href="/zhuayi/admin/admin/template/js/thickbox/thickbox.css"/>
+<script type="text/javascript" src="/zhuayi/admin/admin/template/js/zhuayi.js"></script>
+</head>
+<body scroll="no" style="overflow-y:hidden;">
+<div class="header">
+    <div class="logo lf">
+        <a href="/zpadmin/admin/"><span class="invisible"><?php echo $show['webname'];?></span></a>
+    </div>
+    <div class="rt">
+        <div class="tab_style white cut_line text-r">
+            <!-- <a href="javascript:">官方网站</a><span>|</span>
+            <a href="javascript:">支持论坛</a><span>|</span>
+            <a href="javascript:">帮助？</a> -->
+        </div>
+        <div class="style_but"></div>
+    </div>
+
+    <div class="col-auto" style="overflow: visible">
+        <div class="log white cut_line">
+            您好！<b><?php echo $show['admin']['username'];?></b>
+            <span>|</span>
+            <a href="/zpadmin/admin/logout">[退出]</a>
+            <span>|</span>
+            <a href="<?php echo $show['weburl'];?>" target="_blank" id="site_homepage">站点首页</a><span>|</span>
+            登录时间: <?php echo $show['admin']['logintime'];?>
+        </div>
+        <ul class="nav white">
+        <?php foreach ($show['menu_list'] as $key=>$val){?>
+            <li class="<?php if ($key==0){ echo 'on';}?> top_menu">
+                <a href="javascript:" onclick="menu_list(this)" data-id="<?php echo $val['id'];?>"><?php echo $val['title'];?></a>
+            </li>
+        <?php }?>
+        </ul>
+
+    </div>
+
+</div>
+
+<div id="content">
+    <div class="col-left left_menu">
+
+        <div id="leftMain"></div>
+        <a href="javascript:;" id="openClose" style="outline-style: none; outline-color: invert; outline-width: medium;" hideFocus="hidefocus" class="open" title="展开与关闭" onclick="left_close()"><span class="hidden">展开</span></a>
+        </div>
+
+
+    <div class="col-auto mr8">
+
+        <div class="crumbs">
+
+            <div class="shortcut cu-span">
+                <a href="javascript:recache();" target="right"><span>更新缓存</span></a>
+                <a href="/zpadmin/admin/user_edit/<?php echo $show['admin']['id'];?>?height=180&width=500" class="thickbox"><span>修改个人信息</span></a>
+            </div>
+
+            当前位置：<span id="current_pos1"><a id="zcms"/>Zhuayi</a> > <span id="current_pos"></span>
+        </div>
+
+        <div class="col-1">
+                <iframe name="right" id="rightMain" src="/zpadmin/admin/right" frameborder="false" scrolling="auto" style="overflow-x:hidden;border:none; " width="100%" height="auto" allowtransparency="true"></iframe>
+        </div>
+
+    </div>
+
+</div>
+<script type="text/javascript"> 
+
+//clientHeight-0; 空白值 iframe自适应高度
+
+function windowW(){
+
+    if($(window).width()<980){
+
+            $('.header').css('width',980+'px');
+
+            $('#content').css('width',980+'px');
+
+            $('body').attr('scroll','');
+
+            $('body').css('overflow','');
+            
+            $
+    }
+
+}
+
+windowW();
+
+$(window).resize(function(){
+
+    if($(window).width()<980){
+
+        windowW();
+
+    }else{
+
+        $('.header').css('width','auto');
+
+        $('#content').css('width','auto');
+
+        $('body').attr('scroll','no');
+
+        $('body').css('overflow','hidden');
+    }
+
+});
+heights = $(window).height()-$(".crumbs").height()-$(".header").height();
+$("#rightMain").height(heights-20);
+var openClose = $("#rightMain").height()+39;
+$("#openClose").height(openClose+30);
+
+/* 获取菜单 */
+function menu_list(obj)
+{
+    $(obj).parent().addClass('on').siblings().removeClass('on');   
+    id = $(obj).attr('data-id');
+    $.get('/zpadmin/api/admin/json_get_menu_list/'+id,function(data){
+        
+        if (data == '')
+        {
+            return false;
+        }
+        //data = eval("("+data+")");
+        if (data['status'] == '1')
+        {
+            $("#leftMain").html('');
+            if ($("#rightMain").attr('src') != '/zpadmin/admin/right')
+            {
+                $("#rightMain").attr('src','/zpadmin/admin/right');
+            }
+            $.each(data['msg'],function(k,v){
+                txt  = '<div>';
+                txt  += '    <h3 class="f14"><span class="switchs on cu" title="展开与收缩" onclick="switchs(this)"></span>'+v['title']+'</h3>';
+                txt  += '    <ul>';
+
+                if (v['menu_list'] != null)
+                {
+                    $.each(v['menu_list'],function(kk,vv){
+                        if (vv['target'] == 0)
+                        {
+                            if (vv['par'] !='')
+                            {
+                                vv['par'] = '/'+vv['par'];
+                            }
+                            if (vv['ajax'] !='')
+                            {
+                                vv['ajax'] = '/'+vv['ajax'];
+                            }
+                            txt  += '    <li id="_MP972" class="sub_menu"><a href="'+vv['url']+'" hidefocus="true"  onclick="return menu_click(this)">'+vv['title']+'</a></li>';
+                        }
+                        else
+                        {
+                            txt  += '    <li id="_MP972" class="sub_menu"><a href="'+vv['url']+'" hidefocus="true"  target="_blank">'+vv['title']+'</a></li>';
+                        }
+                        
+                    })
+                }
+                
+                txt += '    </ul>';
+                txt += '<div>';
+                $("#leftMain").append(txt);
+            })
+        }
+    })
+}
+
+/** 菜单点开 **/
+function menu_click(obj)
+{
+    $(".sub_menu").removeClass('on');
+    $(obj).parent().addClass('on');
+    str = $(obj).parent().parent().prev().html().replace(/<[^>]*>/g,'');
+    $("#current_pos").html(str +' > '+ '<span id="right_menu">'+$(obj).html()+'</span>');
+    $("#rightMain").attr('src',$(obj).attr('href'))
+    return false;
+}
+/** 左侧开关 **/
+function left_close()
+{
+    var obj = $("#openClose");
+    if($(obj).data('clicknum')==1) 
+    {
+        $("html").removeClass("on");
+
+        $(".left_menu").removeClass("left_menu_on");
+
+        $(obj).removeClass("close");
+
+        $(obj).data('clicknum', 0);
+    
+        $(".col-1").css('width','auto')
+    } 
+    else
+    {
+        $(".left_menu").addClass("left_menu_on");
+        $(".col-1").css('width','100%')
+        $(obj).addClass("close");
+
+        $("html").addClass("on");
+
+        $(obj).data('clicknum', 1);
+    }
+}
+$(function(){
+    menu_list($(".top_menu").eq(0).find('a'));
+})
+;
+function switchs(obj)
+{
+    var parent = $(obj).parent().next('ul')
+    if ($(parent).css('display')=='block')
+    {
+        $(obj).addClass('cu').removeClass('on');
+        $(parent).css('display','none');
+    }
+    else
+    {
+        $(obj).addClass('on');
+        $(parent).css('display','block');
+    }
+}
+
+/* 更新缓存 */
+function recache()
+{
+    var url = document.getElementById('rightMain').contentWindow.document.location.href;
+    if (url.substr(-1,1) != '&')
+    {
+        if (url.indexOf('?') < 0)
+        {
+            url += '?';
+        }
+        else
+        {
+            url +="&";
+        }
+    } 
+    url += "recache";
+    $("#rightMain").attr('src',url);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<?php $this->load_modle('admin_header');?>
+<form name="myform" action="/zpadmin/admin/user/" method="get">
+<div class="explain-col">
+	搜索管理员：<input type="text" value="<?php echo $_GET['username'];?>" class="input-text" name="username" size='30'>
+	<input type="submit" value="确定搜索" class="button">
+</div>
+</form>
+<div class="bk10"></div>
+<form name="myform" action="/zpadmin/admin/user_del/" method="post" id="admin_user">
+<div class="table-list">
+	<table width="100%" cellspacing="0" >
+		<thead>
+			<tr>
+				<th width="30"><input type="checkbox" name="checkbox" onclick="$('input[type=checkbox]').attr('checked',$(this).attr('checked'))"/></th>
+				<th width="30">序号</th>
+				<th align='left'>帐号</th>
+				<th align='left'>登录IP</th>
+				<th align='left' width="120">登录时间</th>
+				<th width="200">管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($show['list'] as $key=>$val){?>
+			<tr>
+				<td align='center'>
+					<input type="checkbox" value="<?php echo $val['id'];?>" name="id[]" class="admin_<?php echo $val['id'];?>"/>
+				</td>
+				<td align='center'><?php echo $val['id'];?></td>
+				<td><?php echo $val['username'];?></td>
+				<td><?php echo $val['login_ip'];?></td>
+				<td><?php echo $this->load_fun('dtime',$val['logintime']);?></td>
+				<td align='center'>
+					<a href="/zpadmin/admin/user_edit/<?php echo $val['id'];?>?height=230&width=500" class="thickbox" title="编辑管理员">编辑</a> |
+					<a href="javascript:;" onclick="del(this)">删除</a>
+				</td>
+			</tr>
+		<?php }?>
+		</tbody>
+	</table>
+	<div class="btn">
+		<div style="float:left">
+			<a href="javascript:" onClick="javascript:$('input[type=checkbox]').attr('checked', true)">全选</a>/<a href="javascript:" onClick="javascript:$('input[type=checkbox]').attr('checked', false)">取消</a>
+			<input type="submit" class="button" name="dosubmit" value="删除选中"/>
+		</div>
+		<div class="page"><?php echo $show['page'];?></div>
+	</div>
+</div>
+</form>
+<?php require $this->load_tpl('admin_foot');?>
+
+<script type="text/javascript">
+$(function(){
+	$("#admin_user").z_form_submit();
+})
+function del(obj)
+{
+	$(obj).parent().parent().find('input[type=checkbox]').attr('checked',true);
+	$("#admin_user").submit();
+}
+</script>
+

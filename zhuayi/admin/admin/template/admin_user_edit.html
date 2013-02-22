@@ -1,0 +1,67 @@
+<script type="text/javascript">
+<!--
+$(function(){
+	$.formValidator.initConfig({autotip:true,formid:"admin_info",onerror:function(msg){}});
+	$("#username").formValidator({onshow:"请输入管理员帐号",onfocus:"请输入管理员帐号"}).inputValidator({min:2,max:60,onerror:"请输入管理员帐号"});
+})
+//-->
+</script>
+
+<form action="/zpadmin/api/admin/json_insert_user_info" method="post" id="admin_info">
+<fieldset>
+	<legend><?php echo $show['pagename'];?></legend>
+	<table width="100%"  class="table_form">
+		<tr>
+			<th width="80">帐号：</th>
+			<td class="y-bg">
+				<input type="text" class="input-text" name="username" id="username" value="<?php echo $show['info']['username'];?>" size="30" />
+			</td>
+		</tr>
+		<tr>
+			<th width="80">密码：</th>
+			<td class="y-bg">
+				<input type="password" class="input-text" name="password" id="password" value="" size="30" />
+			</td>
+		</tr>
+		<?php if ($show['self'] == 1){?>
+		<tr>
+			<th width="80">账号组：</th>
+			<td class="y-bg">
+				<select name="gid">
+					<option>==选择帐号组==</option>
+					<?php foreach ($show['group_list'] as $val){?>
+					<option value="<?php echo $val['id'];?>" <?php if ($val['id'] == $show['info']['gid']){ echo 'selected';}?>><?php echo $val['group_name'];?></option>
+					<?php } ?>
+				</select>
+			</td>
+		</tr>
+		<?php }?>
+	</table>
+</fieldset>
+<div class="bk15"></div>
+<input type="hidden" name="id" value="<?php echo $show['info']['id'];?>">
+<input type="submit" class="button" id="button"  value="提交" />
+</form>
+<script type="text/javascript">
+$(function(){
+	$("#admin_info").z_form_submit();
+	/*$("#admin_info").submit(function(){
+		$("#button").val('正在提交').attr('disabled',true);
+		$.post($(this).attr('action'),$(this).serialize(),function(data){
+			data = eval("("+data+")");
+			if (data['status'] != 1)
+			{
+				tb_tips(data['msg']);
+				$("#button").val('提交').attr('disabled',false);
+			}
+			else
+			{
+				tb_tips_url(data['msg'],'/zpadmin/admin/user/',1000);
+			}
+		})
+		return false;
+	})*/
+
+})
+
+</script>

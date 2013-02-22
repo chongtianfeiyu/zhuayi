@@ -1,0 +1,81 @@
+<script type="text/javascript">
+<!--
+$(function(){
+	$.formValidator.initConfig({autotip:true,formid:"menu_info",onerror:function(msg){}});
+	$("#title").formValidator({onshow:"请输入菜单名称",onfocus:"菜单名称不能为空"}).inputValidator({min:2,max:20,onerror:"菜单名称不能为空"});
+	$("#fun").formValidator({onshow:"方法参数格式“fun/par1/par2”",onfocus:"方法参数格式“fun/par1/par2"});
+	$("#ajax").formValidator({onshow:"格式?height=120&width=220”",onfocus:"格式?height=120&width=220"})
+	$("#parent_id").formValidator({onshow:"所属上级菜单为空则为顶级",onfocus:"菜单地址不能为空"});
+	$("#orders").formValidator({onshow:"请输入菜单排列顺序,数值越低月靠前",onfocus:"排列顺序必须为数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"排列顺序格式错误"});
+	
+})
+var arrSorts = new Array();
+<?php foreach ($show['list'] as $key=>$val){?>
+arrSorts[<?php echo $key;?>] = ["<?php echo $val['id'];?>", "<?php echo $val['title'];?>", "<?php echo $val['parent_id'];?>","<?php echo $val['id'];?>"];
+<?php }?>
+//-->
+$(function(){
+
+	$("#url").focus(function(){
+		if ($(this).val() == '')
+		{
+			$("#url").val('/zpadmin/'+$("#modle").val()+'/'+$('#action').val());
+		}
+		
+	})
+})
+</script>
+
+<form action="/zpadmin/admin/menu_info" method="post" id="menu_info">
+<fieldset>
+	<legend><?php echo $show['pagename'];?></legend>
+	<table width="100%"  class="table_form">
+		<tr>
+			<th width="80">菜单名称：</th>
+			<td class="y-bg"><input type="text" class="input-text" name="title" id="title" value="<?php echo $show['info']['title'];?>" size="30" /></td>
+		</tr>
+		<tr>
+			<th>功能模块：</th>
+			<td class="y-bg">
+			<input type="text" class="input-text" name="modle" id="modle" value="<?php echo $show['info']['modle'];?>" size="10" />
+			<span>方法:</span>
+			<input type="text" class="input-text" name="action" id="action" value="<?php echo $show['info']['action'];?>" size="20" />
+		</tr>
+		<tr>
+			<th width="80">地址：</th>
+			<td class="y-bg"><input type="text" class="input-text" name="url" id="url" value="<?php echo $show['info']['url'];?>" size="50" /></td>
+		</tr>
+		<tr>
+			<th width="80">所属上级：</th>
+			<td class="y-bg">
+				<span id=selBox> </span>
+				<input id="parent_id" name="parent_id" value="<?php echo $show['info']['parent_id'];?>" type="hidden"/>
+				<script language="javascript">
+						var b = new sortMenu("parent_id","selBox",arrSorts);
+						b.newInit('<?php echo $show['parent_id'];?>',b);
+				</script>
+			</td>
+		</tr>
+		<tr>
+			<th width="80">排列顺序：</th>
+			<td class="y-bg"><input type="text" class="input-text" name="orders" id="orders" value="<?php echo $show['info']['orders'];?>" size="10" /></td>
+		</tr>
+		<tr>
+			<th width="80">窗口属性：</th>
+			<td class="y-bg">
+				<input type="radio" name="hidden" value="0" <?php if ($show['info']['hidden'] == 0){ echo 'checked';}?>/> 显示 
+				<input type="radio" name="hidden" value="1" <?php if ($show['info']['hidden'] == 1){ echo 'checked';}?>/> 隐藏 
+				<input type="radio" name="target" value="0" <?php if ($show['info']['target'] == 0){ echo 'checked';}?>/> 当前窗口 
+				<input type="radio" name="target" value="1" <?php if ($show['info']['target'] == 1){ echo 'checked';}?>/> 新窗口 
+				<input type="radio" name="top" value="0" <?php if ($show['info']['top'] == 0){ echo 'checked';}?>/> 顶部显示 
+				<input type="radio" name="top" value="1" <?php if ($show['info']['top'] == 1){ echo 'checked';}?>/> 顶部隐藏 
+				<input type="radio" name="ajax" value="1" <?php if ($show['info']['ajax'] == 1){ echo 'checked';}?>/> 浮动 
+				<input type="radio" name="ajax" value="0" <?php if ($show['info']['ajax'] == 0){ echo 'checked';}?>/> 不浮动 
+			</td>
+		</tr>
+	</table>
+</fieldset>
+<div class="bk15"></div>
+<input type="hidden" name="id" value="<?php echo $show['info']['id'];?>">
+<input type="submit" class="button ajaxform" id="dosubmit"  value="提交" />
+</form>

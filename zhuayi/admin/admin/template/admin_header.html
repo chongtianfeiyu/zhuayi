@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title><?php echo $show['webname'];?></title>
+<link href="/zhuayi/admin/admin/template/style/reset.css" rel="stylesheet" type="text/css" />
+<link href="/zhuayi/admin/admin/template/style/system.css" rel="stylesheet" type="text/css" />
+<link href="/zhuayi/admin/admin/template/style/table_form.css" rel="stylesheet" type="text/css" />
+<link href="/zhuayi/admin/admin/template/style/styles2.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/zhuayi/admin/admin/template/js/jquery.min.js"></script>
+<script type="text/javascript" src="/zhuayi/admin/admin/template/js/zhuayi.js"></script>
+<script type="text/javascript" src="/zhuayi/admin/admin/template/js/thickbox/thickbox.js"></script>
+<link rel="stylesheet" type="text/css" href="/zhuayi/admin/admin/template/js/thickbox/thickbox.css"/>
+
+<script language="javascript" type="text/javascript" src="/zhuayi/admin/admin/template/js/form/formvalidator.js" charset="UTF-8"></script>
+<script language="javascript" type="text/javascript" src="/zhuayi/admin/admin/template/js/form/formvalidatorregex.js" charset="UTF-8"></script>
+<script language="javascript" type="text/javascript" src="/zhuayi/admin/admin/template/js/select.js" charset="UTF-8"></script>
+
+</head>
+<body>
+<div class="subnav">
+	<?php if (!empty($show['menu'])){?>
+    <div class="content-menu ib-a blue line-x">
+	<?php
+		foreach ($show['menu'] as $val){
+	?>
+        <a href="<?php echo $val['url'];?>" class="<?php if ($this->modle.$this->action == $val['modle'].$val['action'].$val['par']){echo 'on';}?> <?php if (!empty($val['ajax'])){echo ' thickbox';}?>" <?php if ($val['target']=='1'){echo 'target=_blank""';}?> title="<?php echo $val['title'];?>"><em class="right_menu"><?php echo $val['title'];?></em></a><span>|</span>
+	<?php }?>
+	</div>
+	<?php }?>
+</div>
+<div class="pad_10">
+	<?php if (isset($show['tips'])){?>
+	<div class="explain-col">
+		温馨提示：<?php echo $show['tips'];?>
+	</div>
+	<div class="bk10"></div>
+	<?php }?>

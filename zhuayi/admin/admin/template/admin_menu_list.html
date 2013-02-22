@@ -1,0 +1,45 @@
+<?php $this->load_modle('admin_header');?>
+<form name="myform" action="/zpadmin/admin/menu_orders/" method="post">
+<div class="table-list">
+	<table width="100%" cellspacing="0" >
+		<thead>
+			<tr>
+				<th width="30"><input type="checkbox" name="checkbox" onclick="$('input[type=checkbox]').attr('checked',$(this).attr('checked'))"/></th>
+				<th width="30">排序</th>
+				<th align='left'>菜单名称</th>
+				<th width="200">管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($show['menu_list'] as $key=>$val){?>
+			<tr <?php if ($val['parent_id'] > 0){ echo "style=display:none";}?> class="parent_id_<?php echo $val['parent_id'];?>">
+				<td align='center'>
+					<input type="checkbox" value="<?php echo $val['id'];?>" name="id[]"/>
+				</td>
+				<td align='center'>
+					<input name='orders[]' type='text' size='3' value='<?php echo $val['orders'];?>' class='input-text-c'>
+				</td>
+				<td onclick="$('.parent_id_<?php echo $val['id'];?>').toggle()">
+					<?php echo $val['gap'].$val['title'];?>
+					<?php if (!empty($val['url'])){?>
+					(<?php echo $val['url'];?>)
+					<?php }?>
+				</td>
+				<td align='center'>
+					<a href="/zpadmin/admin/menu_edit//<?php echo $val['id'];?>/?height=350" class="thickbox" title="添加子菜单">添加子菜单</a> | 
+					<a href="/zpadmin/admin/menu_edit/<?php echo $val['id'];?>/?height=350" class="thickbox" title="菜单编辑">修改</a> | 
+					<a href="/zpadmin/admin/menu_del/<?php echo $val['id'];?>">删除</a>
+				</td>
+			</tr>
+		<?php }?>
+		</tbody>
+	</table>
+	<div class="btn">
+		<div style="float:left">
+			<input type="submit" class="button"  value="排序" onclick="$('input[type=checkbox]').attr('checked',true)"/>
+		</div>
+	</div>
+</div>
+</form>
+<?php require $this->load_tpl('admin_foot');?>
+

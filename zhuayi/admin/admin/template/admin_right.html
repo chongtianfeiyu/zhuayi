@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>404 Page Not Found</title>
+<style type="text/css">
+
+::selection{ background-color: #E13300; color: white; }
+::moz-selection{ background-color: #E13300; color: white; }
+::webkit-selection{ background-color: #E13300; color: white; }
+
+body {
+	background-color: #fff;
+	margin: 40px;
+	font: 13px/20px normal Helvetica, Arial, sans-serif;
+	color: #4F5155;
+}
+
+a {
+	color: #003399;
+	background-color: transparent;
+	font-weight: normal;
+}
+
+h1 {
+	color: #444;
+	background-color: transparent;
+	border-bottom: 1px solid #D0D0D0;
+	font-size: 19px;
+	font-weight: normal;
+	margin: 0 0 14px 0;
+	padding: 14px 15px 10px 15px;
+}
+
+code {
+	font-family: Consolas, Monaco, Courier New, Courier, monospace;
+	font-size: 12px;
+	background-color: #f9f9f9;
+	border: 1px solid #D0D0D0;
+	color: #002166;
+	display: block;
+	margin: 14px 0 14px 0;
+	padding: 12px 10px 12px 10px;
+}
+
+#container {
+	margin: 10px;
+	border: 1px solid #D0D0D0;
+	-webkit-box-shadow: 0 0 8px #D0D0D0;
+}
+#container ul{border-bottom:1px #ccc dotted;padding-bottom:10px;}
+p {
+	margin: 12px 15px 12px 15px;
+}
+</style>
+</head>
+<body>
+	<div id="container">
+		<h1>系统更新日志</h1>
+		<ul>
+			<h2>2013-02-5</h2>
+			<li>增加用户反馈前台测试页面</li>
+		</ul>
+		<ul>
+			<h2>2013-02-4</h2>
+			<li>PHP框架基础改造,统一应用MC的key值</li>
+			<li>完成软件首页推荐关系写入缓存的crontab程序</li>
+		</ul>
+		<ul>
+			<h2>2013-02-3</h2>
+			<li>完成软件管理首页</li>
+			<li>因新需求修改基础服务升级配置</li>
+			<li>完成首页软件推荐规则</li>
+		</ul>
+		<ul>
+			<h2>2013-02-1</h2>
+			<li>安全考虑,增加input输入类,前台页面或接口进入的参数都需要进入input中验证</li>
+			<li>增加前台软件首页分类api接口</li>
+		</ul>
+		<ul>
+			<h2>2013-01-30</h2>
+			<li>整合protocolbuf</li>
+			<li>完成垃圾清理配置</li>
+		</ul>
+		<ul>
+			<h2>2013-01-29</h2>
+			<li>修复用户反馈系统回归BUG</li>
+			<li>完成启动优化的配置</li>
+			<li>完成系统优化配置</li>
+		</ul>
+		<ul>
+			<h2>2013-01-28</h2>
+			<li>修复用户反馈冒烟测试后的BUG</li>
+			<li>增加前台用户反馈测试页面</li>
+			<li>完成系统优化启动组配置</li>
+		</ul>
+		<ul>
+			<h2>2013-01-25</h2>
+			<li>配置qa1服务器</li>
+			<li>增加软件套餐图片字段</li>
+			<li>合并fqa和basic项目作为同一管理平台</li>
+		</ul>
+		<ul>
+			<h2>2013-01-24</h2>
+			<li>优化DB类(将不在遵守同域下SQL的顺序问题,并且以单例模式,同一域下的数据库只用连接一次,提高性能)</li>
+			<li>优化管理平台帐号权限</li>
+			<li>增加管理平台清空缓存功能</li>
+			<li>增加管理平台个人信息修改功能</li>
+		</ul>
+		<ul>
+			<h2>2013-01-23</h2>
+			<li>完成收藏帖子功能</li>
+			<li>完成编辑器上传图片功能兼容先有IDC</li>
+			<li>完成产品选择页面</li>
+		</ul>
+		<ul>
+			<h2>2013-01-22</h2>
+			<li>support项目数据库设计完成60%</li>
+			<li>完成回复帖子功能</li>
+			<li>完成项目管理</li>
+			<li>完成锁定帖子[接口]</li>
+			<li>完成设为好帖[接口]</li>
+			<li>完成置顶帖子[接口]</li>
+			<li>完成设为已处理[接口]</li>
+			<li>完成帖子展示列表</li>
+		</ul>
+		<ul>
+			<h2>2013-01-21</h2>
+			<li>软件升级模块</li>
+			<li>文件管理</li>
+			<li>灰度策略管理</li>
+			<li>升级配置</li>
+		</ul>
+		<ul>
+			<h2>2013-01-18</h2>
+			<li>增加软件套餐软件关联</li>
+			<li>增加首页分类软件关联</li>
+		</ul>
+		<ul>
+			<h2>2013-01-17</h2>
+			<li>修正首页banner和软件套餐删除逻辑为上线,下线</li>
+			<li>增加首页banner和软件套餐上,下线接口</li>
+			<li>将CMS需要的表单独分离到一个单独的库</li>
+			<li>增加首页分类增删改查</li>
+		</ul>
+		<ul>
+			<h2>2013-01-15</h2>
+			<li>增加首页banner跳转连接target_url字段</li>
+			<li>完成心跳服务</li>
+			<li>完成指令展示</li>
+			<li>完成指令增删改查</li>
+			<li>完成灰度策略展示</li>
+			<li>完成灰度策增删改查</li>
+			<li>完成心跳规律展示</li>
+			<li>完成心跳规律增删改查</li>
+			<li>完成心跳间隔时间展示和修改</li>
+		</ul>
+		<ul>
+			<h2>2013-01-14</h2>
+			<li>DB类多库共存需求改造</li>
+		</ul>
+		<ul>
+			<h2>2013-01-11</h2>
+			<li>修正后台帐号组权限问题</li>
+			<li>软件修改参数修改</li>
+		</ul>
+		<ul>
+			<h2>2013-01-10</h2>
+			<li>软件套餐信息展示</li>
+			<li>软件套餐增删改查</li>
+			<li>软件信息展示</li>
+			<li>软件添加</li>
+			<li>软件修改</li>
+		</ul>
+		<ul>
+			<h2>2013-01-09</h2>
+			<li>完成后台界面迁移</li>
+			<li>完成分类信息展示</li>
+			<li>完成多级分类信息增删改查</li>
+			<li>完成首页Banner信息展示</li>
+			<li>完成首页Banner排序功能</li>
+		</ul>
+	</div>
+</body>
+</html>
