@@ -1,9 +1,12 @@
 <?php
 /**
- * memcache缓存类
+ * cache.class.php     Zhuayi MC缓存类
  *
- * @package default
- * @author zhuayi
+ * @copyright    (C) 2005 - 2010  Zhuayi
+ * @licenes      http://www.zhuayi.net
+ * @lastmodify   2010-10-27
+ * @author       zhuayi
+ * @QQ			 2179942
  **/
 class mem_cache
 {
@@ -80,11 +83,12 @@ class mem_cache
 			$key = $this->group($group).'_'.$key;
 		}
 		
+		$key = SAE_MEMCACHED_KEY.'-'.$key;
 		if ($this->debug)
 		{
 			echo "<!--\n cache: set({$key}, ".print_r($value,true).", {$flag}, {$expire}) \n-->\n";
 		}
-		return $this->mc->set(md5(SAE_MEMCACHED_KEY.$key),$value,$flag,$expire);
+		return $this->mc->set(md5($key),$value,$flag,$expire);
 	}
 	
 	/**
@@ -102,12 +106,13 @@ class mem_cache
 			$key = $this->group($group).'_'.$key;
 		}
 
+		$key = SAE_MEMCACHED_KEY.'-'.$key;;
 		if ($this->debug)
 		{
 			echo "<!-- cache::set({$key}, {$value}, {$flag}, {$expire}) -->\n";
 		}
 
-		return $this->mc->increment(md5(SAE_MEMCACHED_KEY.$key),$value);
+		return $this->mc->increment(md5($key),$value);
 	}
 	
 	/**
@@ -124,12 +129,12 @@ class mem_cache
 		{
 			$key = $this->group($group).'_'.$key;
 		}
-
+		$key = SAE_MEMCACHED_KEY.'-'.$key;;
 		if ($this->debug)
 		{
 			echo "<!-- cache_set: ({$key}, ".print_r($value,true).", {$flag}, {$expire}) -->\n";
 		}
-		return $this->mc->decremen(md5(SAE_MEMCACHED_KEY.$key),$value);
+		return $this->mc->decremen(md5($key),$value);
 	}
 	
 	/**
@@ -158,15 +163,17 @@ class mem_cache
 		{
 			foreach ($key as $val)
 			{
-				$key_list[] = md5(SAE_MEMCACHED_KEY.$val);
+				$key_list[] = md5(SAE_MEMCACHED_KEY.'-'.$key);
 			}
 			$key = $key_list;
 		}
 		else
 		{
-			$key = md5(SAE_MEMCACHED_KEY.$key);
+			//$key = md5(SAE_MEMCACHED_KEY.$key);
+			$debug_key = SAE_MEMCACHED_KEY.'-'.$key;
+			$key = md5($debug_key);
 		}
-
+		
 		$reset = $this->mc->get($key);
 		
 		if ($this->debug)
@@ -206,12 +213,14 @@ class mem_cache
 			$key = $this->group($group).'_'.$key;
 		}
 
+		$key = SAE_MEMCACHED_KEY.'-'.$key;
+
 		if ($this->debug)
 		{
 			echo "<!--\n cache: delete({$key}) \n-->\n";
 		}
 
-		return $this->mc->delete(md5(SAE_MEMCACHED_KEY.$key));
+		return $this->mc->delete(md5($key));
 	}
 
 	/**
