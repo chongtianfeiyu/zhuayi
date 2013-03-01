@@ -42,7 +42,7 @@ class admin_action extends zhuayi
 
 		$show['tips'] = '请在添加、修改、排序菜单全部完成后，更新菜单缓存';
 
-		$show['menu_list'] = db_admin_menu::get_admin_menu_list('orders asc','all');
+		$show['menu_list'] = db_admin_menu::get_admin_menu_list(array(),'orders asc','all');
 		$show['menu_list'] = $this->load_fun('tree',$show['menu_list'],'parent_id');
 		//$this->cache->flush('admin_menu');
 		$this->display($show);
@@ -55,7 +55,7 @@ class admin_action extends zhuayi
 		$this->verify(__METHOD__);
 
 		/* 读取后台菜单数据 */
-		$show['list'] = db_admin_menu::get_admin_menu_list('orders asc','all');
+		$show['list'] = db_admin_menu::get_admin_menu_list(array(),'orders asc','all');
 		if (empty($id))
 		{
 			$show['pagename'] = '菜单添加';
@@ -203,9 +203,8 @@ class admin_action extends zhuayi
 
 		$admin = cookie::ret_cookie('admin_user');
 
-
-
 		$select_menu = explode(":",$modle);
+		
 
 		if (substr($modle,0,4) == 'json')
 		{
@@ -348,7 +347,7 @@ class admin_action extends zhuayi
 	{
 		$this->verify(__METHOD__);
 
-		$show['menu_list'] = db_admin_menu::get_admin_menu_list('id desc','all');
+		$show['menu_list'] = db_admin_menu::get_admin_menu_list(array('no_verify'=>0),'id desc','all');
 
 		$show['menu_list'] = $this->load_fun('tree',$show['menu_list'],'parent_id');
 		// foreach ($show['menu_list'] as $key=>$val)

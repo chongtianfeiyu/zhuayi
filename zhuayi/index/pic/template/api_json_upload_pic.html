@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>上传组件</title>
+<script type="text/javascript" src="/zhuayi/admin/admin/template/js/swfobject.js"></script>
+<style type="text/css">
+body{margin:2px 0px 0px -4px;padding:0px;font-size:12px;line-height:25px;color:red;}
+#spaload,#msg{float:left;}
+</style>
+</head>
+<body>
+<div id="spaload"></div>
+<div id="msg"></div>
+<script type="text/javascript">
+var so = new SWFObject("/zhuayi/admin/admin/template/images/sapload.swf", "mymovie", "400", "25", "9", "#ffffff");
+
+//允许上传的文件类型,大小写敏感
+so.addVariable('types','*.jpg;*.jpeg;*.png;*.gif;');
+
+//你的自定义参数post发送
+so.addVariable('args','<?php echo $show["args"];?>');
+
+//服务器上传文件处理脚本,请写完整路径,保证不不跨域访问
+so.addVariable('upUrl','<?php echo $show["callbak_url"];?>');
+
+//自定义文件域名称,可省略。默认是Filedata
+so.addVariable('fileName','imgFile');
+
+//允许上传的最大文件个数
+so.addVariable('maxNum','10');
+
+//允许上传的最大文件大小M为单位
+so.addVariable('maxSize','10');
+
+//每次得到上传完毕信息之后通知页面
+so.addVariable('etmsg','1');
+
+//所有文件上传完毕并得到信息之后通知页面
+so.addVariable('ltmsg','1');
+
+so.write("spaload");
+
+function sapLoadMsg(data)
+{
+	data = eval("("+data+")");
+	if (data['status'] == '-1')
+	{
+		alert(data['msg']);
+	}
+	else
+	{
+
+		window.parent.ajax_upload(data['msg']['src']);
+	}
+}
+</script>
+

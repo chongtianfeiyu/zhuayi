@@ -135,7 +135,6 @@ class db
 		{
 			if ($slave == 0)
 			{
-				$this->link_master = new PDO($dbhost,$this->mysql_user,$this->mysql_pass);
 
 				/* 设置编码 */
 				if($this->mysql_charset)

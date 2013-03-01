@@ -28,7 +28,9 @@
  	 **/
 	function limit($string, $start, $len, $byte=3)
  	{
- 		$string = strip_tags(htmlspecialchars_decode($string));
+ 		$string = htmlspecialchars_decode($string);
+ 		$string = str_replace('<br />','\n',$string);
+ 		$string = strip_tags($string);
  		if (empty($string))
  		{
  			return $string;
@@ -41,7 +43,7 @@
 		$re = "/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/";
 		preg_match_all($re, $string, $match);
 		$string = join("",array_slice($match[0], $start, $len));
-		return $string;
+		return str_replace('\n','<br />',$string);
  	}
 
  	/**
@@ -81,6 +83,20 @@
 		$string = htmlspecialchars_decode($string);
 		$string =  preg_replace('/<a(.*?)href=(.*?)>(.*?)<\/a>/i',"$3" , $string);
 		return htmlspecialchars($string);
+	}
+
+	/**
+	 * replace_a 过滤HTML,但保留BR换行
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	function replace_html_no_br($string)
+	{
+		$string = htmlspecialchars_decode($string);
+		$string = str_replace('<br />','\n',$string);
+		$string = strip_tags($string);
+		return str_replace('\n','<br />',$string);
 	}
 
 	/**
@@ -134,6 +150,17 @@
        {
            return false;
        }
+    }
+
+    /**
+	 * 计算内容中的字数，未对长连接特殊处理。
+	 * 规则同微博(汉字1，字母、数字1/2)
+	 * @param string $content
+	 * @return number
+	 */
+    function get_str_len($str)
+    {
+    	return ceil(strlen(iconv('UTF-8','GBK', $str))/2);
     }
 
 

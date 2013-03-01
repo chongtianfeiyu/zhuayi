@@ -532,12 +532,12 @@ class zhuayi
 			{
 				if ($val['slave'] == 1)
 				{
-					$val['slave'] = "slave_s IP:".SAE_MYSQL_HOST_S." db_name_conf_key: ".$val['db_name'];
+					$val['slave'] = "slave_s IP:".$val['mysql_host_s']." db_name_conf_key: ".$val['db_name'];
 					
 				}
 				else
 				{
-					$val['slave'] = "slave_m IP:".SAE_MYSQL_HOST_M." db_name_conf_key: ".$val['db_name'];
+					$val['slave'] = "slave_m IP:".$val['mysql_host_m']." db_name_conf_key: ".$val['db_name'];
 				}
 				echo "<!--\nsql_{$db_num}:{$val['slave']}\n";
 				echo "SQL:{$val['sql']}\nexecute_time:{$val['execute_time']}\n-->\n";

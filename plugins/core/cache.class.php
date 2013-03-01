@@ -163,7 +163,7 @@ class mem_cache
 		{
 			foreach ($key as $val)
 			{
-				$key_list[] = md5(SAE_MEMCACHED_KEY.'-'.$key);
+				$key_list[] = md5(SAE_MEMCACHED_KEY.'-'.$val);
 			}
 			$key = $key_list;
 		}

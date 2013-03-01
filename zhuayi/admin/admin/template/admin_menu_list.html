@@ -12,14 +12,14 @@
 		</thead>
 		<tbody>
 		<?php foreach ($show['menu_list'] as $key=>$val){?>
-			<tr <?php if ($val['parent_id'] > 0){ echo "style=display:none";}?> class="parent_id_<?php echo $val['parent_id'];?>">
+			<tr <?php if ($val['parent_id'] > 0){ echo "style=display:none";}?> class="tree parent_<?php echo $val['parent_id'];?>" data-id="<?php echo $val['id'];?>">
 				<td align='center'>
 					<input type="checkbox" value="<?php echo $val['id'];?>" name="id[]"/>
 				</td>
 				<td align='center'>
 					<input name='orders[]' type='text' size='3' value='<?php echo $val['orders'];?>' class='input-text-c'>
 				</td>
-				<td onclick="$('.parent_id_<?php echo $val['id'];?>').toggle()">
+				<td >
 					<?php echo $val['gap'].$val['title'];?>
 					<?php if (!empty($val['url'])){?>
 					(<?php echo $val['url'];?>)
@@ -42,4 +42,15 @@
 </div>
 </form>
 <?php require $this->load_tpl('admin_foot');?>
+
+<script type="text/javascript">
+$(function(){
+
+	$(".tree").z_tree(
+	{
+		parent_key:"parent_",
+		id_key:"data-id"
+	});
+})
+</script>
 

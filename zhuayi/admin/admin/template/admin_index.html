@@ -51,7 +51,7 @@
 <div id="content">
     <div class="col-left left_menu">
 
-        <div id="leftMain"></div>
+        <div id="leftMain" style="overflow-y:auto;overflow-x:hidden;width:120px;"></div>
         <a href="javascript:;" id="openClose" style="outline-style: none; outline-color: invert; outline-width: medium;" hideFocus="hidefocus" class="open" title="展开与关闭" onclick="left_close()"><span class="hidden">展开</span></a>
         </div>
 
@@ -65,7 +65,7 @@
                 <a href="/zpadmin/admin/user_edit/<?php echo $show['admin']['id'];?>?height=180&width=500" class="thickbox"><span>修改个人信息</span></a>
             </div>
 
-            当前位置：<span id="current_pos1"><a id="zcms"/>Zhuayi</a> > <span id="current_pos"></span>
+            当前位置：<span id="current_pos1"><a id="zcms"/></a> > <span id="current_pos"></span>
         </div>
 
         <div class="col-1">
@@ -91,7 +91,6 @@ function windowW(){
 
             $('body').css('overflow','');
             
-            $
     }
 
 }
@@ -114,18 +113,22 @@ $(window).resize(function(){
 
         $('body').css('overflow','hidden');
     }
-
+    heights = $(window).height()-$(".crumbs").height()-$(".header").height();
+    $("#rightMain,#leftMain").height(heights-20);
 });
 heights = $(window).height()-$(".crumbs").height()-$(".header").height();
-$("#rightMain").height(heights-20);
+$("#rightMain,#leftMain").height(heights-20);
 var openClose = $("#rightMain").height()+39;
 $("#openClose").height(openClose+30);
+
+
 
 /* 获取菜单 */
 function menu_list(obj)
 {
     $(obj).parent().addClass('on').siblings().removeClass('on');   
     id = $(obj).attr('data-id');
+    $('#zcms').text($(obj).text());
     $.get('/zpadmin/api/admin/json_get_menu_list/'+id,function(data){
         
         if (data == '')

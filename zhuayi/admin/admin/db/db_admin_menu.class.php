@@ -16,9 +16,10 @@ class db_admin_menu extends zhuayi
 	 * 查找菜单
 	 * @param string $id 
 	 */
-	function get_admin_menu_list($order,$limit)
+	function get_admin_menu_list($array,$order,$limit)
 	{
-		return $this->db->select_db('default')->fetch_row('admin_menu ',array('status'=>0),$order,$limit);
+		$array['status'] = 0;
+		return $this->db->select_db('default')->fetch_row('admin_menu ',$array,$order,$limit);
 	}
 
 	/**
@@ -40,15 +41,13 @@ class db_admin_menu extends zhuayi
 	 * 根据ID批量查找菜单
 	 * @param string $id 
 	 */
-	function get_admin_menu_list_by_ids($ids,$parent_id = '',$top='',$hidden='',$order='')
+	function get_admin_menu_list_by_ids($ids,$parent_id = '',$top='',$hidden='',$order='',$no_verify=0)
 	{
 		if (empty($ids))
 		{
 			return array();
 		}
 
-		$array['id'] = "{in}({$ids})";
-		
 		if ($parent_id !== '')
 		{
 			$array['parent_id'] = $parent_id;
@@ -61,7 +60,18 @@ class db_admin_menu extends zhuayi
 		{
 			$array['hidden'] = $hidden;
 		}
+
 		$array['status'] = 0;
+
+		
+		if ($no_verify > 0)
+		{
+			$array['no_verify'] = $no_verify;
+		}
+		else
+		{
+			$array['id'] = "{in}({$ids})";
+		}
 
 		return $this->db->select_db('default')->fetch_row('admin_menu',$array,$order,'all');
 	}

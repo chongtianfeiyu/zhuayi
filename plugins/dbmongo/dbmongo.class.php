@@ -11,8 +11,7 @@
  */
 class dbmongo extends Mongo
 {
-
-	static $db_list = array();
+	private $database;
 
 	/**
 	 * 构造函数
@@ -29,9 +28,14 @@ class dbmongo extends Mongo
 		{
 			$this->$key = $val;
 		}
-
-		$mongo_link_url = "mongodb://{$this->username}:{$this->password}@{$this->host}:{$this->port}";
-
+		if (!empty($this->username) && !empty($this->password))
+		{
+			$mongo_link_url = "mongodb://{$this->username}:{$this->password}@{$this->host}:{$this->port}";
+		}
+		else
+		{
+			$mongo_link_url = "mongodb://{$this->host}:{$this->port}";
+		}
 		try
 		{
 			parent::__construct($mongo_link_url,array("persist" => "x"));
@@ -41,23 +45,39 @@ class dbmongo extends Mongo
 		{
 			print_r($e);
 			throw new Exception("mongodb连接失败", -1);
-			
 		}
-		
-		$this->collection = $this->$this->db;
-		// /* 加载缓存类 */
-		// $this->cache = & $cache;
-
-		// /* 定义表前缀 */
-		// define('T', $this->mysql_pre);
-
 	}
 
 	function select_db($db_name)
 	{
-		$this->$db_name;
-		//$this->db_list[$db_name] = $this->$db_name;
+		$this->db = $this->$db_name;
+		return $this;
 	}
+
+	/* */
+	function get_collection($tablename)
+	{
+		return $this->db->$tablename;
+	}
+
+	function fetch_row($tablename)
+	{
+		return $this->get_collection($tablename)->find();
+	}
+
+	function insert($tablename,$insert_array)
+	{
+		if (!is_array($insert_array))
+		{
+			throw new Exception("插入数据结构出错!", -1);
+		}
+
+		return $this->get_collection($tablename)->insert($insert_array);
+	}
+
+
+
+
 
 
 }

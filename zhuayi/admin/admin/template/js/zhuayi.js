@@ -39,6 +39,54 @@ function get_pinyin(obj,input,title)
 
 })(jQuery);
 
+
+(function($){
+	$.fn.z_tree = function(options) 
+	{
+		var defaults = {    
+		    parent_key:"parent_id_",
+		    id_key:"data-id" 
+		  }; 
+		var opts = $.extend(defaults, options);
+		$(this).bind('click',function(){
+
+			var display = 0
+			
+			if (typeof($(this).attr('display')) == 'undefined')
+			{
+				display = 1;
+				$(this).attr('display','1');
+			}
+			else
+			{
+				$(this).removeAttr('display');
+			}
+			console.log(display);
+			self_toggle(opts,$("."+opts.parent_key+$(this).attr(opts.id_key)),display);
+			
+		});
+		
+	};
+	function self_toggle(opts,obj,display)
+	{
+		if (display == 1)
+		{
+			$(obj).show();
+		}
+		else
+		{
+			$(obj).hide().removeAttr('display');
+		}
+
+		if ($("."+opts.parent_key+$(obj).attr(opts.id_key)).html() != null)
+		{
+			$(obj).each(function(k,v){
+				self_toggle(opts,$("."+opts.parent_key+$(v).attr(opts.id_key)));
+			})
+		}
+	}
+
+})(jQuery);
 /* app */
 function wall_init()
 {

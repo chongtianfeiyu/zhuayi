@@ -69,6 +69,12 @@ class output extends zhuayi
 		header('Content-type: application/json');
 		$array['status'] = $status;
 		$array['msg'] = $msg;
+
+		if ($status == '-1')
+		{
+			$array['message'] = $msg;
+			$array['error'] = 1;
+		}
 		if (!empty($line))
 		{
 			$array['line'] = $line;
@@ -78,6 +84,14 @@ class output extends zhuayi
 			$array['file'] = $file;
 		}
 		return json_encode($array);
+	}
+
+	function jsonp($status = 0 ,$msg = '',$callback)
+	{
+		header('Content-type: application/json');
+		$array['status'] = $status;
+		$array['msg'] = $msg;
+		return "{$callback}(".json_encode($array).")";
 	}
 
 	/**

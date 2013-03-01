@@ -27,8 +27,7 @@ class json_get_menu_list extends zhuayi
 
 		foreach ($show as $key=>$val)
 		{
-			
-			$show[$key]['menu_list'] = db_admin_menu::get_admin_menu_list_by_ids($admin['menu_id'],$val['id'],'','0','orders asc');
+			$show[$key]['menu_list'] = db_admin_menu::get_admin_menu_list_by_ids($admin['menu_id'],$val['id'],'','0','orders asc',$val['parent_no_verify']);
 		}
 		$show = json_encode($show);
 		throw new Exception($show, "1");
