@@ -135,6 +135,7 @@ class db
 		{
 			if ($slave == 0)
 			{
+				$this->link_master = new PDO($dbhost,$this->mysql_user,$this->mysql_pass,array(PDO::ATTR_PERSISTENT=>1));
 
 				/* 设置编码 */
 				if($this->mysql_charset)
@@ -507,20 +508,18 @@ class db
 	{
 		if (!empty($order))
 		{
-			$order = explode(' ', $order);
-			$order = array_flip($order);
+			$order_tmp = explode(' ', $order);
+			$order_tmp = array_flip($order_tmp);
 			
-			if (isset($order['order']))
+			if (isset($order_tmp['order']))
 			{
-				$order = array_flip($order);
-				$order = implode(' ', $order);
 				return $order;
 			}
 			
-			$order = array_flip($order);
-			$order = implode(' ', $order);
-
-			if (strpos($order,'group by '))
+			$order_tmp = array_flip($order_tmp);
+			$order_tmp = implode(' ', $order_tmp);
+			
+			if (strpos($order_tmp,'group by '))
 			{
 				return $order;
 			}
@@ -917,6 +916,8 @@ class db
 		$array['execute_time'] = $time;
 		$array['slave'] = $slave;
 		$array['db_name'] = $db_name;
+		$array['mysql_host_m'] = $this->mysql_host_m;
+		$array['mysql_host_s'] = $this->mysql_host_s;
 		self::$db_base_performance_sql_count[] = $array;
 	}
 
